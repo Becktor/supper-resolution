@@ -4,6 +4,7 @@ __licence__ = 'FreeBSD License'
 __author__ =  'Robert Gawron'
 
 from PIL import Image
+from cffi import FFI
 import Camera
 
 """
@@ -11,7 +12,11 @@ import Camera
 """
 class SRImage:
     def __init__(self):
-        pass
+        self.ffi = FFI()
+        self.ffi.cdef("int printf(const char* f, ...);")
+        C = self.ffi.dlopen(None)
+        #arg = self.ffi.new("char[]", ("world"))
+        C.printf(b"hi there\n")
 
     def openFromFile(self, filename):
         self.image = Image.open(filename)
